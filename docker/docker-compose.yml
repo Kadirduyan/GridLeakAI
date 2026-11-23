@@ -1,0 +1,15 @@
+services:
+  gridleak-ai:
+    image: kadirdyn/gridleak-ai:latest
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: gridleak-ai
+    ports:
+      - "8000:8000"
+    volumes:
+      - gridleak_storage:/app/backend/storage
+    restart: unless-stopped
+
+volumes:
+  gridleak_storage:

@@ -1,4 +1,8 @@
-"""API'ye gelen verilerin alanlarını ve geçerli değerlerini tanımlar."""
+"""GridLeak AI — Pydantic API İstek Doğrulama Şemaları.
+
+API uç noktalarına gelen kapasite, analist notu ve saha sonucu verilerini tip ve sınır
+açısından doğrular; beklenmeyen alanları (`extra='forbid'`, ör. `FLAG`) 422 ile reddeder.
+"""
 from enum import Enum
 from pydantic import BaseModel, ConfigDict, Field
 

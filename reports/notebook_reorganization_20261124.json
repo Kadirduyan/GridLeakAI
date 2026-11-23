@@ -1,0 +1,14 @@
+{
+  "backup": "C:\\Users\\kadir\\Desktop\\GridLeakAI_backup_20261124",
+  "backup_verified_files": 3597,
+  "all_original_master_cells_preserved": 14,
+  "eda_byte_identical": true,
+  "unchanged_non_notebook_files": 3594,
+  "training_executed": false,
+  "files": [
+    "02_preprocessing_and_features.ipynb",
+    "03_model_training_and_tuning.ipynb",
+    "04_model_evaluation_and_comparison.ipynb",
+    "05_explainability_and_conclusions.ipynb"
+  ]
+}

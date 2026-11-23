@@ -1,8 +1,12 @@
-"""Denetim planı, analist notu ve saha sonucu iş kuralları."""
+"""GridLeak AI — Denetim Planı, Analist Notu ve Saha Sonucu İş Kuralları.
+
+- Kapasite sınırını (`settings.capacity`) ve kayıt doluluğu kontrolünü (`>= %90`) uygular.
+- Plana ekleme/çıkarma, analist notu kaydetme ve saha denetim sonucunu kalıcı SQLite'a yazar.
+"""
 from datetime import datetime, timezone
 from fastapi import HTTPException
 from .database import connection
-from .subscribers import require_subscriber, summary
+from .subscribers import SOURCE
 
 
 def now():
@@ -15,7 +19,7 @@ def state(path):
         plan = [dict(row) for row in db.execute("SELECT * FROM plan ORDER BY created_at, subscriber_id")]
         notes = [dict(row) for row in db.execute("SELECT * FROM notes ORDER BY subscriber_id")]
         results = [dict(row) for row in db.execute("SELECT * FROM results ORDER BY subscriber_id")]
-    return {"capacity":capacity,"plan":plan,"notes":notes,"results":results,"source":"synthetic_demo"}
+    return {"capacity":capacity,"plan":plan,"notes":notes,"results":results,"source":SOURCE}
 
 
 def set_capacity(path, capacity):
@@ -27,8 +31,8 @@ def set_capacity(path, capacity):
     return {"capacity":capacity}
 
 
-def add_to_plan(path, subscriber_id):
-    record = summary(subscriber_id)
+def add_to_plan(path, subscriber_id, catalog):
+    record = catalog.summary(subscriber_id)
     if record["data_quality_percent"] < 90:
         raise HTTPException(409, "Örnek iş kuralı: kayıt doluluğu %90 altında; önce veri kontrolü gerekli.")
     with connection(path, write=True) as db:
@@ -42,23 +46,23 @@ def add_to_plan(path, subscriber_id):
     return {"subscriber_id":subscriber_id,"status":"planned"}
 
 
-def remove_from_plan(path, subscriber_id):
-    require_subscriber(subscriber_id)
+def remove_from_plan(path, subscriber_id, catalog):
+    catalog.require_subscriber(subscriber_id)
     with connection(path, write=True) as db:
         db.execute("DELETE FROM plan WHERE subscriber_id=?", (subscriber_id,))
     return {"subscriber_id":subscriber_id,"status":"removed","saved_results_preserved":True}
 
 
-def save_note(path, subscriber_id, note):
-    require_subscriber(subscriber_id)
+def save_note(path, subscriber_id, note, catalog):
+    catalog.require_subscriber(subscriber_id)
     timestamp = now()
     with connection(path, write=True) as db:
         db.execute("INSERT INTO notes VALUES (?,?,?) ON CONFLICT(subscriber_id) DO UPDATE SET note=excluded.note,updated_at=excluded.updated_at", (subscriber_id,note,timestamp))
     return {"subscriber_id":subscriber_id,"note":note,"updated_at":timestamp}
 
 
-def save_result(path, subscriber_id, status, note):
-    require_subscriber(subscriber_id)
+def save_result(path, subscriber_id, status, note, catalog):
+    catalog.require_subscriber(subscriber_id)
     timestamp = now()
     with connection(path, write=True) as db:
         planned = db.execute("SELECT 1 FROM plan WHERE subscriber_id=?", (subscriber_id,)).fetchone()

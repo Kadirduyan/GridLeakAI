@@ -1,4 +1,4 @@
-// Backend ile bütün HTTP iletişimi burada; arayüz doğrudan veritabanına erişmez.
+/** GridLeak AI — FastAPI backend ile tüm HTTP (GET/PUT/DELETE) iletişimini yürüten istemci katmanı. */
 import type {SavedState, Subscriber, Status} from './data';
 
 export async function request<T>(path:string, method='GET', body?:unknown):Promise<T> {
@@ -11,16 +11,16 @@ export async function request<T>(path:string, method='GET', body?:unknown):Promi
       body:body===undefined?undefined:JSON.stringify(body)
     });
     const data=await response.json().catch(()=>null);
-    if(!response.ok) throw new Error(typeof data?.detail==='string'?data.detail:`İstek tamamlanamadı (${response.status}). Alanları kontrol edin.`);
-    if(data===null) throw new Error('Sunucu geçerli JSON yanıtı vermedi.');
+    if(!response.ok) throw new Error(typeof data?.detail==='string'?data.detail:`Ä°stek tamamlanamadÄ± (${response.status}). AlanlarÄ± kontrol edin.`);
+    if(data===null) throw new Error('Sunucu geÃ§erli JSON yanÄ±tÄ± vermedi.');
     return data as T;
   } catch(error) {
-    if(error instanceof TypeError || (error instanceof Error && error.name==='AbortError')) throw new Error('Backend bağlantısı kurulamadı veya zaman aşımına uğradı. Kaydın durumunu bağlantı yenilendiğinde kontrol edin.');
+    if(error instanceof TypeError || (error instanceof Error && error.name==='AbortError')) throw new Error('Backend baÄŸlantÄ±sÄ± kurulamadÄ± veya zaman aÅŸÄ±mÄ±na uÄŸradÄ±. KaydÄ±n durumunu baÄŸlantÄ± yenilendiÄŸinde kontrol edin.');
     throw error;
   } finally {clearTimeout(timer)}
 }
 
-interface ApiSubscriber {id:string;model_score:number|null;inspection_rank:number|null;data_quality_percent:number}
+interface ApiSubscriber {id:string;partition:string;model_score:number|null;inspection_rank:number|null;data_quality_percent:number}
 interface ApiState {capacity:number;plan:{subscriber_id:string}[];notes:{subscriber_id:string;note:string}[];results:{subscriber_id:string;status:Status;note:string;updated_at:string}[]}
 
 export async function loadState():Promise<SavedState>{
@@ -29,10 +29,11 @@ export async function loadState():Promise<SavedState>{
 }
 
 export async function loadSubscribers():Promise<Subscriber[]>{
-  const result=await request<{items:ApiSubscriber[]}>('/subscribers?limit=100');
-  return Promise.all(result.items.map(async a=>{
-    const series=await request<{points:{date:string;consumption_kwh:number|null;moving_average_7d:number|null}[]}>(`/subscribers/${encodeURIComponent(a.id)}/consumption?days=365`);
-    return {id:a.id,score:a.model_score,rank:a.inspection_rank,quality:a.data_quality_percent,points:series.points,
-      missing:series.points.flatMap((p,i)=>p.consumption_kwh===null?[i]:[])};
-  }));
+ const all:ApiSubscriber[]=[];let offset=0;
+ while(true){const r=await request<{items:ApiSubscriber[];total:number}>(`/subscribers?limit=1000&offset=${offset}`);all.push(...r.items);offset+=r.items.length;if(offset>=r.total||!r.items.length)break;}
+ return all.map(a=>({id:a.id,partition:a.partition,score:a.model_score,rank:a.inspection_rank,quality:a.data_quality_percent,points:[],missing:[]}));
+}
+export async function loadConsumption(a:Subscriber):Promise<Subscriber>{
+ const r=await request<{points:Subscriber['points']}>(`/subscribers/${encodeURIComponent(a.id)}/consumption?days=365`);
+ return {...a,points:r.points,missing:r.points.flatMap((p,i)=>p.consumption_kwh===null?[i]:[])};
 }

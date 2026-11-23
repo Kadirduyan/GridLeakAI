@@ -1,0 +1,36 @@
+{
+  "integration": "connected",
+  "experiment": "iyilestirme_v3_20261123T171349Z",
+  "total_subscribers": 42372,
+  "scored_subscribers": 42324,
+  "unscorable": 48,
+  "selected_model": "Calibrated Stacking v3 (LGBM + CatBoost + XGBoost + MLP)",
+  "n_features": 160,
+  "decision_threshold": 0.29006222348325456,
+  "risk_thresholds": {
+    "f1_optimal_primary": 0.29006222348325456,
+    "precision50_max_recall_medium": 0.19211300698790673,
+    "precision70_critical": 0.40294978717998475
+  },
+  "cv_5fold_oof_ap": 0.63565,
+  "cv_5fold_oof_roc_auc": 0.90847,
+  "test_accuracy": 0.9254665721710371,
+  "baseline_accuracy": 0.9151901724545239,
+  "test_recall": 0.5571030640668524,
+  "test_precision": 0.5610098176718092,
+  "test_f1": 0.5590496156533893,
+  "test_ap": 0.6156787355729737,
+  "test_roc_auc": 0.9011887154273257,
+  "test_ece": 0.008717345045733887,
+  "test_tp": 400,
+  "test_fp": 313,
+  "test_fn": 318,
+  "shap_explained_subscribers": 2000,
+  "api_tests_passed": 7,
+  "frontend_build": "passed",
+  "preserved_baselines": [
+    "egitim_20261123T090852Z_0642b7bb",
+    "iyilestirme_20261123T150518Z"
+  ],
+  "limitation": "Historic test split was previously inspected in v1/v2; controlled comparison on same split rather than fresh external benchmark. Scores are calibrated analyst review priorities, not automated theft confirmation."
+}

@@ -1,11 +1,11 @@
-export type Page = 'review' | 'plan' | 'results' | 'model';
+/** GridLeak AI — Ortak TypeScript veri tipleri, ekran tanımları, sayı formatlama ve güvenli CSV dışa aktarım yardımcıları. */
+export type Page = 'review' | 'plan' | 'results';
 export const pages: {id: Page; label: string; title: string; subtitle: string}[] = [
   {id:'review',label:'İnceleme merkezi',title:'Abone incelemesi',subtitle:'Tüketim davranışı, veri yeterliliği ve açıklanabilir denetim önceliği'},
   {id:'plan',label:'Denetim planı',title:'Denetim planı',subtitle:'Kapasiteye göre aday seçimi ve görev takibi'},
   {id:'results',label:'Saha sonuçları',title:'Saha sonuçları',subtitle:'Denetim sonrasında bulguları kaydedin ve takip edin'},
-  {id:'model',label:'Model ve veri',title:'Model ve veri',subtitle:'Veri kapsamı, model durumu ve değerlendirme yaklaşımı'},
 ];
-export interface Subscriber { id:string; score:number|null; rank:number|null; quality:number; missing:number[]; points:{date:string;consumption_kwh:number|null;moving_average_7d:number|null}[] }
+export interface Subscriber { id:string; partition?:string; score:number|null; rank:number|null; quality:number; missing:number[]; points:{date:string;consumption_kwh:number|null;moving_average_7d:number|null}[] }
 export const nf = (n:number) => new Intl.NumberFormat('tr-TR',{maximumFractionDigits:1}).format(n);
 export const quality = (a:Subscriber) => a.quality;
 export const statuses = ['Planlandı','İnceleme sürüyor','Kaçak doğrulandı','Kaçak bulunmadı','Ek inceleme gerekli'] as const;

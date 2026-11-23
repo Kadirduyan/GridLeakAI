@@ -1,4 +1,9 @@
-"""SQLite bağlantısı ve kalıcı kayıt tabloları. Her işlem kendi bağlantısını kullanır."""
+"""GridLeak AI — Kalıcı Analist Veritabanı Bağlantısı (`gridleak.sqlite3`).
+
+Denetim kapasitesi (`settings`), denetim planı (`plan`), analist notları (`notes`) ve
+saha sonuçları (`results`) tablolarını başlatır; yazma işlemlerinde yarış durumunu önlemek
+için `BEGIN IMMEDIATE` kilidiyle atomik işlem (transaction) sağlar.
+"""
 import sqlite3
 from contextlib import contextmanager
 from pathlib import Path

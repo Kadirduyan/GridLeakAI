@@ -1,4 +1,11 @@
-# Python bağımlılıkları kurulum aşamasında sürümleri doğrulanarak eklenecek.
-# Planlanan: jupyterlab, ipykernel, pandas, numpy, pyarrow, scikit-learn,
-# imbalanced-learn, xgboost, shap, matplotlib, seaborn, fastapi, uvicorn,
-# pydantic, sqlalchemy, joblib, pyyaml, pytest.
+# AI ortamı: python -m pip install -r requirements.txt
+numpy==2.4.6
+pandas==3.0.3
+scikit-learn==1.9.0
+imbalanced-learn==0.14.2
+joblib==1.5.3
+matplotlib==3.11.0
+xgboost==3.4.1
+shap==0.54.1
+ipykernel
+nbformat

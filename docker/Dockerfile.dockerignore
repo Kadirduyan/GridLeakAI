@@ -1,0 +1,27 @@
+# Docker derleme bağlamından hariç tutulan klasör ve dosyalar
+.git
+.gitignore
+.env
+.env.*
+.pytest_cache
+.ipynb_checkpoints
+**/__pycache__
+**/*.py[cod]
+*.log
+
+# Eğitim/araştırma çıktıları ve ham veri (web uygulaması yalnızca catalog.sqlite3 kullanır)
+ai/
+reports/
+data/raw/
+data/processed/
+data/splits/
+
+# Yerel sanal ortamlar, bağımlılıklar ve yerel çalışma durumu
+backend/.venv/
+backend/storage/
+frontend/node_modules/
+frontend/dist/
+
+# Yardımcı betikler
+START.cmd
+*.md
