@@ -1,0 +1,3 @@
+import {quality,type Subscriber} from '../data';
+export default function OncelikSirasi({subscriber:a,capacity}:{subscriber:Subscriber;capacity:number}){
+return <section className="gl-panel gl-metric"><h3>03 · DENETİM ÖNCELİĞİ</h3><div className="gl-ranknum">{a.rank===null?'—':'#'+a.rank}</div><span className="gl-small">Otomatik sıralama model bağlantısını bekliyor.</span><div className="gl-mini">Saha kapasitesi: <strong>{capacity} abone</strong><br/>{quality(a)>=90?'Elle denetim planına eklenebilir.':'Önce eksik kayıt kontrolü gerekli.'}</div><p className="gl-explain">Kayıt doluluğu tek başına kaçak göstergesi değildir. Model hazır olana kadar planı analist oluşturur.</p></section>}

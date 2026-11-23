@@ -1,0 +1,7 @@
+# Yerel geliştirme ve test için doğrulanan sürümler.
+fastapi==0.165.0
+starlette==1.10.0
+uvicorn==0.40.0
+pydantic==2.13.4
+httpx==0.28.1
+pytest==9.0.3
