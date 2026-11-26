@@ -9,3 +9,7 @@ xgboost==3.4.1
 shap==0.54.1
 ipykernel
 nbformat
+
+lightgbm==4.7.0
+catboost==1.2.10
+optuna==5.1.0

@@ -1,0 +1,200 @@
+{
+  "date": "2026-11-26",
+  "scope": "AI hazırlık, özellik seçimi, Optuna ve SMOTE kodları. Final model yeniden eğitilmedi.",
+  "validation": {
+    "training_rows": 33858,
+    "all_49_features_match": true,
+    "rtol": 1e-06,
+    "atol": 1e-07,
+    "excluded_no_records": 39,
+    "unit_tests_passed": 4,
+    "smoke_rows": 300,
+    "folds": 2,
+    "candidate_features": 581,
+    "selected_features": 160,
+    "trials_per_family": 2,
+    "smote_variants": 6,
+    "protected_files_verified": 71,
+    "protected_changes": [],
+    "backend_tests": "Tamamlanamadı: Windows asyncio socketpair/accept aşamasında TestClient bekliyor. Backend kaynakları değişmedi."
+  },
+  "limitations": [
+    "Yeni araştırma kodu geçmiş Optuna oturumunun birebir kaydı değildir.",
+    "Kısa smoke denemesi başarı ölçümü değildir.",
+    "Tam tuning ve final test yeniden çalıştırılmadı.",
+    "Seçim/tuning OOF skorları geliştirme sonuçlarıdır; bağımsız dış doğrulama değildir.",
+    "Word raporu değiştirilmedi."
+  ],
+  "smoke_tuning": [
+    {
+      "model": "lgbm",
+      "trial": 0,
+      "AP": 0.1255574723082929,
+      "F1": 0.247787610619469,
+      "Precision": 0.160919540229885,
+      "Recall": 0.5384615384615384,
+      "FP": 73,
+      "FN": 12,
+      "threshold": 0.0864937540297764,
+      "threshold_scope": "Aynı geliştirme OOF üzerinde seçildi; bağımsız F1 değildir."
+    },
+    {
+      "model": "lgbm",
+      "trial": 1,
+      "AP": 0.1255081173528749,
+      "F1": 0.2285714285714285,
+      "Precision": 0.1818181818181818,
+      "Recall": 0.3076923076923077,
+      "FP": 36,
+      "FN": 18,
+      "threshold": 0.0890193389801607,
+      "threshold_scope": "Aynı geliştirme OOF üzerinde seçildi; bağımsız F1 değildir."
+    },
+    {
+      "model": "xgboost",
+      "trial": 0,
+      "AP": 0.1314658788685535,
+      "F1": 0.2528735632183908,
+      "Precision": 0.180327868852459,
+      "Recall": 0.4230769230769231,
+      "FP": 50,
+      "FN": 15,
+      "threshold": 0.1065514907240867,
+      "threshold_scope": "Aynı geliştirme OOF üzerinde seçildi; bağımsız F1 değildir."
+    },
+    {
+      "model": "xgboost",
+      "trial": 1,
+      "AP": 0.1244622323977683,
+      "F1": 0.2156862745098039,
+      "Precision": 0.1447368421052631,
+      "Recall": 0.4230769230769231,
+      "FP": 65,
+      "FN": 15,
+      "threshold": 0.0881059542298317,
+      "threshold_scope": "Aynı geliştirme OOF üzerinde seçildi; bağımsız F1 değildir."
+    },
+    {
+      "model": "catboost",
+      "trial": 0,
+      "AP": 0.1645944571245558,
+      "F1": 0.2346938775510204,
+      "Precision": 0.1352941176470588,
+      "Recall": 0.8846153846153846,
+      "FP": 147,
+      "FN": 3,
+      "threshold": 0.354728179202734,
+      "threshold_scope": "Aynı geliştirme OOF üzerinde seçildi; bağımsız F1 değildir."
+    },
+    {
+      "model": "catboost",
+      "trial": 1,
+      "AP": 0.1492111619614655,
+      "F1": 0.2647058823529412,
+      "Precision": 0.2142857142857142,
+      "Recall": 0.3461538461538461,
+      "FP": 33,
+      "FN": 17,
+      "threshold": 0.42086633589193,
+      "threshold_scope": "Aynı geliştirme OOF üzerinde seçildi; bağımsız F1 değildir."
+    },
+    {
+      "model": "mlp",
+      "trial": 0,
+      "AP": 0.1437001756660038,
+      "F1": 0.2469135802469135,
+      "Precision": 0.1818181818181818,
+      "Recall": 0.3846153846153846,
+      "FP": 45,
+      "FN": 16,
+      "threshold": 0.2765319943428039,
+      "threshold_scope": "Aynı geliştirme OOF üzerinde seçildi; bağımsız F1 değildir."
+    },
+    {
+      "model": "mlp",
+      "trial": 1,
+      "AP": 0.1920868061082376,
+      "F1": 0.2682926829268293,
+      "Precision": 0.1964285714285714,
+      "Recall": 0.4230769230769231,
+      "FP": 45,
+      "FN": 15,
+      "threshold": 0.7672363519668579,
+      "threshold_scope": "Aynı geliştirme OOF üzerinde seçildi; bağımsız F1 değildir."
+    }
+  ],
+  "smoke_smote": [
+    {
+      "model": "lr",
+      "SMOTE": false,
+      "AP": 0.161399210761781,
+      "F1": 0.2666666666666666,
+      "Precision": 0.2352941176470588,
+      "Recall": 0.3076923076923077,
+      "FP": 26,
+      "FN": 18,
+      "threshold": 0.174274057149887,
+      "threshold_scope": "Aynı geliştirme OOF üzerinde seçildi; bağımsız F1 değildir."
+    },
+    {
+      "model": "lr",
+      "SMOTE": true,
+      "AP": 0.1618488117267394,
+      "F1": 0.2553191489361702,
+      "Precision": 0.2857142857142857,
+      "Recall": 0.2307692307692307,
+      "FP": 15,
+      "FN": 20,
+      "threshold": 0.6567399501800537,
+      "threshold_scope": "Aynı geliştirme OOF üzerinde seçildi; bağımsız F1 değildir."
+    },
+    {
+      "model": "lgbm",
+      "SMOTE": false,
+      "AP": 0.1456373228992113,
+      "F1": 0.2549019607843137,
+      "Precision": 0.1710526315789473,
+      "Recall": 0.5,
+      "FP": 63,
+      "FN": 13,
+      "threshold": 0.0969640966463971,
+      "threshold_scope": "Aynı geliştirme OOF üzerinde seçildi; bağımsız F1 değildir."
+    },
+    {
+      "model": "lgbm",
+      "SMOTE": true,
+      "AP": 0.1141918619626948,
+      "F1": 0.2365591397849462,
+      "Precision": 0.1641791044776119,
+      "Recall": 0.4230769230769231,
+      "FP": 56,
+      "FN": 15,
+      "threshold": 0.3378855873623493,
+      "threshold_scope": "Aynı geliştirme OOF üzerinde seçildi; bağımsız F1 değildir."
+    },
+    {
+      "model": "xgboost",
+      "SMOTE": false,
+      "AP": 0.1135394815394801,
+      "F1": 0.2133333333333333,
+      "Precision": 0.1632653061224489,
+      "Recall": 0.3076923076923077,
+      "FP": 41,
+      "FN": 18,
+      "threshold": 0.0986174046993255,
+      "threshold_scope": "Aynı geliştirme OOF üzerinde seçildi; bağımsız F1 değildir."
+    },
+    {
+      "model": "xgboost",
+      "SMOTE": true,
+      "AP": 0.1307002754925675,
+      "F1": 0.2,
+      "Precision": 0.1481481481481481,
+      "Recall": 0.3076923076923077,
+      "FP": 46,
+      "FN": 18,
+      "threshold": 0.317792683839798,
+      "threshold_scope": "Aynı geliştirme OOF üzerinde seçildi; bağımsız F1 değildir."
+    }
+  ]
+}

@@ -154,15 +154,23 @@ def detailed_metrics(y, scores, threshold):
 
 
 def main():
+    import argparse
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--prepared-dir", type=Path, default=ROOT / "data/processed/v2")
+    parser.add_argument("--reference", type=Path, default=ROOT / "ai/training/v3_reference.json")
+    parser.add_argument("--processed-output", type=Path, required=True, help="Yeni v3 çıktı klasörü; mevcut dosyaların üzerine yazılmaz.")
+    args = parser.parse_args()
+    if args.processed_output.exists():
+        raise FileExistsError(args.processed_output)
     t0 = time.time()
-    ref_lock = json.loads((ROOT / "ai/artifacts/iyilestirme_v3_20261123T171349Z/locked_selection.json").read_text(encoding="utf-8"))
+    ref_lock = json.loads(args.reference.read_text(encoding="utf-8"))
     best_params = ref_lock["params"]
     fcols = ref_lock["features"]
     assert len(fcols) == 160
 
     
     # --- Aşama A ve B boyunca YALNIZCA eğitim aboneleri yüklenir (teste sıfır erişim) ---
-    v2_dir = ROOT / "data/processed/v2"
+    v2_dir = args.prepared_dir
     base_tr_df = pd.read_csv(v2_dir / "egitim_ozellikleri_2016_v1.csv", dtype={"CONS_NO": str})
     tr_ids = base_tr_df["CONS_NO"].tolist()
     y_tr = base_tr_df["FLAG"].to_numpy(dtype=np.int32)
@@ -243,7 +251,7 @@ def main():
     exp_name = datetime.now(timezone.utc).strftime("iyilestirme_v3_%Y%m%dT%H%M%SZ")
     exp_dir = ROOT / "ai/artifacts" / exp_name
     exp_dir.mkdir(parents=True, exist_ok=False)
-    v3_dir = ROOT / "data/processed/v3"
+    v3_dir = args.processed_output
     v3_dir.mkdir(parents=True, exist_ok=True)
 
     
@@ -384,7 +392,7 @@ def main():
     deney_bilgisi = {
         "secilen_model": locked_selection["model_name"],
         "secilen_pipeline": "ensemble_v3.joblib",
-        "processed_dir": "data/processed/v3",
+        "processed_dir": str(v3_dir.resolve()),
         "decision_threshold": locked_ths["t_f1"],
         "risk_thresholds": locked_selection["risk_thresholds"],
         "random_state": 42,
