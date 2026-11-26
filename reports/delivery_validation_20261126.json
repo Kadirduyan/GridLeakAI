@@ -1,0 +1,14 @@
+{
+  "date": "2026-11-26",
+  "backend_tests": "7 passed",
+  "ai_tests": "4 passed",
+  "typescript": "passed",
+  "vite_build": "passed",
+  "homepage_http_status": 200,
+  "health": "ok",
+  "model_status": "connected",
+  "model_retrained": false,
+  "report_layout_validation": "blocked: LibreOffice not installed",
+  "presentation_page": "page_1fe4a79e88208191877528a77ff9971a",
+  "github_push": "blocked: authentication helper inaccessible and connector not authorized"
+}
